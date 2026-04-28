@@ -2,26 +2,100 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@layer base {
+  body {
+    background: linear-gradient(135deg, #0a0f1e 0%, #070c1a 100%);
+    background-attachment: fixed;
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: #0a0f1e;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: theme('colors.blue.400');
+    border-radius: 4px;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover, 
+  input:-webkit-autofill:focus, 
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #0f1629 inset !important;
+    -webkit-text-fill-color: white !important;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
+  /* Focus states for accessibility */
+  *:focus {
+    outline: none;
+  }
+
+  *:focus-visible {
+    outline: 2px solid #60a5fa;
+    outline-offset: 2px;
+  }
+
+  /* Skip link for keyboard navigation */
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #60a5fa;
+    color: #0a0f1e;
+    padding: 8px 16px;
+    z-index: 100;
+    transition: top 0.2s;
+  }
+
+  .skip-link:focus {
+    top: 0;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      #0f1629 0%,
+      #1a2540 50%,
+      #0f1629 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite linear;
+  }
+
+  .dot-grid {
+    background-image: radial-gradient(#1e2d4f 1px, transparent 1px);
+    background-size: 24px 24px;
+    background-position: 0 0;
+  }
+
+  /* Touch target minimum (44x44px on iOS) */
+  .touch-target {
+    min-width: 44px;
+    min-height: 44px;
+  }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
   }
 }
