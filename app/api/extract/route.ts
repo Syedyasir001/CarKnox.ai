@@ -237,7 +237,11 @@ export async function POST(req: NextRequest) {
 
     const apiKey = process.env.GROQ_API_KEY;
     if (!apiKey || apiKey === 'your_api_key_here') {
-      return NextResponse.json({ success: false, errorCode: 'UNKNOWN', userMessage: 'Groq API key not configured.' }, { status: 500 });
+      return NextResponse.json({ 
+        success: false, 
+        errorCode: 'UNKNOWN', 
+        userMessage: 'Demo Mode: URL auto-fill requires a Groq API key. Please fill in the car details manually, or set GROQ_API_KEY in .env.local for AI-powered auto-fill.' 
+      }, { status: 400 });
     }
 
     // === STEP 1: Extract hints from the URL itself ===

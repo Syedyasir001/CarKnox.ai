@@ -4,11 +4,7 @@ CarKnox is a Next.js web application that helps users evaluate used car listings
 
 ## Quick Start
 
-### Prerequisites
-- Node.js 18+ installed
-- Groq API key ([Get one free here](https://console.groq.com/))
-
-### Installation & Setup
+### Option 1: Try Demo Mode (No API Key Required)
 
 1. **Clone the repository**
    ```bash
@@ -21,7 +17,23 @@ CarKnox is a Next.js web application that helps users evaluate used car listings
    npm install
    ```
 
-3. **Set up environment variables**
+3. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open the application**
+   Open [http://localhost:3000](http://localhost:3000)
+
+**That's it!** The app runs in **Demo Mode** with simulated analysis results. You can explore all features immediately.
+
+---
+
+### Option 2: Enable Real AI Analysis (Requires API Key)
+
+1. **Get a free Groq API key** at [console.groq.com](https://console.groq.com/)
+
+2. **Set up environment variables**
    ```bash
    cp .env.example .env.local
    ```
@@ -30,15 +42,12 @@ CarKnox is a Next.js web application that helps users evaluate used car listings
    GROQ_API_KEY=your_groq_api_key_here
    ```
 
-4. **Run the development server**
+3. **Restart the development server**
    ```bash
    npm run dev
    ```
 
-5. **Open the application**
-   Open [http://localhost:3000](http://localhost:3000) in your browser
-
-That's it! You can now start analyzing used car listings.
+Now the app will use real AI analysis via Groq's Llama-3.3-70B model.
 
 ## Features
 

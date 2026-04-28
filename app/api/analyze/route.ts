@@ -54,9 +54,15 @@ export async function POST(req: NextRequest) {
 
     const apiKey = process.env.GROQ_API_KEY;
 
+    // If no API key, return mock data for demo purposes
     if (!apiKey || apiKey === 'your_api_key_here') {
-      console.error("GROQ_API_KEY is not set.");
-      return NextResponse.json({ error: "API key not configured. Please set GROQ_API_KEY in .env.local and restart the dev server." }, { status: 500 });
+      console.log("No API key found. Returning mock data for demo.");
+      const { getMockAnalysis } = await import('@/lib/mockData');
+      const mockResult = getMockAnalysis();
+      // Override mock data with user's actual input where applicable
+      mockResult.priceVerdictReason = `Demo Mode: This is simulated analysis. Set GROQ_API_KEY in .env.local for real AI analysis. Original reason: ${mockResult.priceVerdictReason}`;
+      mockResult.recommendationReason = `Demo Mode: This is simulated analysis. Set GROQ_API_KEY in .env.local for real AI analysis. Original reason: ${mockResult.recommendationReason}`;
+      return NextResponse.json(mockResult);
     }
 
     const textSummary = `Please evaluate the following used car listing for the Indian market:
