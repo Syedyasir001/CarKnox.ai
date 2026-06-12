@@ -15,7 +15,7 @@ export default function Footer() {
         </div>
         
         <div className="text-slate-600 text-sm">
-          © 2025 CarKnox
+          © 2026 CarKnox
         </div>
       </div>
     </footer>

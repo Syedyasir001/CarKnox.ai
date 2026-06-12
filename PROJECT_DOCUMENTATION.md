@@ -283,3 +283,61 @@ Note: Some sites may block automated access. Users can manually fill the form if
 ## Disclaimer
 
 This analysis is AI-generated. Always get a physical inspection by a certified mechanic before making any purchase decision.
+
+---
+
+## Changelog — 11 June 2026
+
+### 1. Navbar: Restored Dealerships & Owner Portal Buttons
+
+**File:** `components/Navbar.tsx`
+
+**Problem:** The two navigation buttons on the top right of the homepage navbar were missing.
+
+**Fix:** Added two pill-style anchor links to the right side of the navbar:
+- **Dealerships** (`href="/dealerships"`) — links to the dealership directory
+- **Owner Portal** (`href="/dealerships/dashboard"`) — links to the dealership owner dashboard
+
+**Styling:**
+- Dark pill buttons (`bg-[#1a1a2e]`, `rounded-full`)
+- White text (`text-white text-sm font-medium`)
+- Hover state (`hover:bg-[#252545]`)
+
+**No other page content was modified.**
+
+---
+
+### 2. Top Dealerships Banner: Auto-Scroll Marquee
+
+**File:** `components/TopDealershipsBanner.tsx`  
+**Associated:** `app/globals.css` (removed unused keyframes)
+
+**Problem:** The premium partner cards rendered statically with no scrolling animation.
+
+**Root cause:** The animation was originally designed to use CSS `@keyframes dealership-scroll` with `translateX(-50%)`, but multiple approaches failed:
+- JSX `<style>` tags are stripped by Next.js App Router
+- CSS `@keyframes` in `globals.css` was unreliable due to processing order
+- Standalone `animate()` from framer-motion had type compatibility issues
+
+**Fix:** Rewired the animation using framer-motion's `motion.div` + `useAnimationControls` — the standard framer-motion pattern already used throughout the codebase.
+
+**Implementation:**
+```tsx
+const controls = useAnimationControls();
+
+useEffect(() => {
+  controls.start({ x: '-50%', transition: scrollTransition });
+}, [controls]);
+```
+
+**Scroll behavior:**
+- **Continuous left scroll:** `repeat: Infinity, repeatType: 'loop'` over 28 seconds
+- **Pause on hover:** `controls.stop()` freezes the track at its current position
+- **Resume on leave:** `controls.start({ x: '-50%', ... })` restarts the scroll from the current position
+- **Seamless loop:** The dealer data array is doubled (`[...dealers, ...dealers]`) so the instant reset snap is invisible
+- **Width:** `width: 'max-content'` on the flex track ensures all cards are in-flow
+
+**Cleanup:**
+- Removed unused `@keyframes dealership-scroll` from `app/globals.css`
+- Removed all CSS-based animation approaches (inline styles, useEffect-injected keyframes)
+- No conflicting animation classes on the element

@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import DealershipCard from '@/components/DealershipCard';
+import TopDealershipsBanner from '@/components/TopDealershipsBanner';
 import { DealershipPublic } from '@/lib/dealershipTypes';
 
 export default function DealershipsPage() {
@@ -101,7 +102,11 @@ export default function DealershipsPage() {
               Register Your Dealership
             </Link>
           </div>
+        </div>
 
+        <TopDealershipsBanner />
+
+        <div className="relative max-w-7xl mx-auto px-4">
           {loading && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[1, 2, 3].map((i) => (
